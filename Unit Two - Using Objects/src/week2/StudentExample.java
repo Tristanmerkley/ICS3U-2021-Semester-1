@@ -2,40 +2,32 @@ package week2;
 
 public class StudentExample {
   public static void main(String[] args) {
-    Student shohei;
+    // ritchie is a vcraiable to an instantce of the class Student
+    // ritchie is an Object (instances of a class)
+    Student ritchie = new Student("Ritchie", "45646", 10);
+    Student yola = new Student("Yola", "123456", 10);
 
-    shohei = new Student("Shohei", "123456", 11);
-    // shohei is a Student (object variable)
+    // ritchie and yola are references to 2 different students
 
-    Student samantha = new Student("Samantha", "654321", 11);
+    Student rastin = ritchie;
 
-    Student alan = shohei;
+    // because rastin and ritche refer to the same Studnet object it increases teh
+    // grade for both (still its only 1 Object)
+    rastin.increaseGrade();
 
-    // called (activated) the method increaseGrade
-    // because alan and shohei reference the same Student Object both of their
-    // grades increase (there is only 1 object)
-    alan.increaseGrade();
+    ritchie = null;
+    // Student tristan; tristan is currently the null reference
 
-    // we activate methods(functions) through the object (variable name)
-    samantha.displayName();
-    samantha.displayStudentNumber();
-    samantha.increaseGrade();
+    // ritchie.increaseGrade(); // throws java.lang.NullPointerException because
+    // ritchie is null
 
-    samantha = null;
-    alan = new Student("Alan", "555555", 11);
-    // samantha.displayGrade(); // null pointer exception cannot call a method from
-    // a null reference
-
-    alan.addTest(87);
-    alan.displayAverage();
-    alan.addTest(92);
-    alan.displayAverage();
-    alan.addTest(96);
-    alan.displayAverage();
-    alan.addTest(67);
-    alan.displayAverage();
-
-    // alan.numMarks = 7; don't have access to primate members (not visible)
-
+    yola.addTest(87);
+    yola.displayAverage();
+    yola.addTest(91);
+    yola.displayAverage();
+    yola.addTest(97);
+    yola.displayAverage();
+    yola.addTest(67);
+    yola.displayAverage();
   }
 }
