@@ -36,12 +36,34 @@ public class Student {
     this.average = 0;
   }
 
+    /**
+     * Overloading the constructor - a student 
+     * @param name
+     * @param studentNumber
+     */
+
+  public Student(String name, String studentNumber) {
+    this.name = name;
+    this.studentNumber = studentNumber;
+    this.grade = 9;
+    this.totalMarks = 0;
+    this.numMarks = 0;
+    this.average = 0;
+  }
   /**
    * displayName, displayStudentNumber, increaseGrade, displayGrade The methods
    * (actions) in a class define behaviour for the class
    */
   public void displayName() {
     System.out.println(name);
+  }
+
+  /**
+   * string is the return type (non-void method)
+   * @return
+   */
+  public String getName(){
+    return name;
   }
 
   /**
@@ -69,6 +91,10 @@ public class Student {
     System.out.println(average);
   }
 
+  public double getAverage(){
+    return average;
+  }
+
   public void addTest(int mark) {
     totalMarks += mark;
     numMarks++;
@@ -78,5 +104,4 @@ public class Student {
   private void calculateAverage() {
     average = (double) totalMarks / numMarks;
   }
-
 }
