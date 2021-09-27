@@ -21,6 +21,12 @@ public class MathClassExamples {
 
         double lengthofLineSegment = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 
+        int a = 5;
 
+        int b = 2;
+        
+        double c = 3.0;
+        
+        System.out.println(5 + a / b * c - 1);
     }
 }

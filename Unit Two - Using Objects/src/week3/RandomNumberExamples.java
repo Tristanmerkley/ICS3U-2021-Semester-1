@@ -20,6 +20,5 @@ public class RandomNumberExamples {
         System.out.println(str);
 
         System.out.println((int) (Math.random() * 4)*2);
-        Math.pow
     }
 }
