@@ -14,6 +14,8 @@ public class BayviewGlenPools {
         double surfaceArea = getSurfaceArea(length, width, shallowHeight, shallowLength, transition, deepHeight);
         double volume = getVolume(length, width, shallowHeight, shallowLength, transition, deepHeight);
 
+        double cost = linerCost * surfaceArea;
+        double volume90 = volume * 0.9;
     }
 
     private static double getVolume(int length, int width, int shallowHeight, int shallowLength, int transition, int deepHeight) {
@@ -26,9 +28,19 @@ public class BayviewGlenPools {
         return volume;
     }
 
-    private static double getSurfaceArea(int length, int width, int shallowHeight, int shallowLength, int transition,
-            int deepHeight) {
-        
+    private static double getSurfaceArea(int length, int width, int shallowHeight, int shallowLength, int transition, int deepHeight) {
+        double transitionHeight = deepHeight - shallowHeight;
+        double transitionLength = Math.sqrt(Math.pow(transition, 2) - Math.pow(transitionHeight, 2));
+        double deepArea = deepHeight * (length - (shallowLength + transitionLength));
+        double transitionArea = shallowHeight * transitionLength + (transitionLength * transitionHeight / 2);
+        double shallowArea = shallowHeight * shallowLength;
+        double lengthWallArea = transitionArea + deepArea + shallowArea;
+        double floorArea = (shallowLength + transition + shallowHeight + deepHeight + (length - (shallowLength + transitionLength))) * width;
+
+        double surfaceArea = (floorArea + (lengthWallArea * 2));
+
+
+        return surfaceArea;
     }
 
 
