@@ -14,8 +14,10 @@ public class BayviewGlenPools {
         double surfaceArea = getSurfaceArea(length, width, shallowHeight, shallowLength, transition, deepHeight);
         double volume = getVolume(length, width, shallowHeight, shallowLength, transition, deepHeight);
 
-        double cost = linerCost * surfaceArea;
-        double volume90 = volume * 0.9;
+        System.out.println("Volume: " + (int)(volume * 0.9 * 100) / 100.0);
+        System.out.println("Surface Area: " + (int)(surfaceArea * 100) / 100.0);
+        System.out.println("Cost of Liner: $" + (int)((surfaceArea * linerCost) * 100) / 100.0);
+
     }
 
     private static double getVolume(int length, int width, int shallowHeight, int shallowLength, int transition, int deepHeight) {
