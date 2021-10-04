@@ -17,18 +17,31 @@ public class CrossCountry {
         String mileOne, mileTwo, finishTime;
         String splitTwo, splitThree;
 
-        /**
-         * get the name and mileOne, mileTwo, finishTime from the user
-         */
+        System.out.print("Please enter your first name: ");
+        firstName = in.nextLine();
+        System.out.print("Please enter your last name: ");
+        lastName = in.nextLine();
+        System.out.print("Please enter mile one: ");
+        mileOne = in.nextLine();
+        System.out.print("Please enter mile two: ");
+        mileTwo = in.nextLine();
+        System.out.print("Please enter finish time: ");
+        finishTime = in.nextLine();
 
          splitTwo = subtractTimes(mileTwo, mileOne);
          splitThree = subtractTimes(finishTime, mileTwo);
 
-         /**
-          * Display a summary for the runner
-          */
+         System.out.println(lastName + " " + firstName + ":");
+         System.out.println("Split two: " + splitTwo);
+         System.out.println("Split three: " + splitThree);
+ 
     }
-
+/**
+ * Takes two times as string in the format of mm:ss.sss and returns the difference
+ * @param endTime
+ * @param startTime
+ * @return
+ */
     private static String subtractTimes(String endTime, String startTime) {
         double endInSeconds = convertToSeconds(endTime);
         double startInSeconds = convertToSeconds(startTime);
@@ -38,13 +51,26 @@ public class CrossCountry {
         return convertToTime(diffInSeconds);
     }
 
-    private static String convertToTime(double diffInSeconds) {
-        
-        // create getMinutes and getSeconds functions to use
+    private static String convertToTime(double seconds) {
+        return getMinutes(seconds) + ":" + getSeconds(seconds);
+    }
+
+
+    private static int getMinutes(Double totalSeconds) {
+        int minutes = (int)(totalSeconds/60);
+        return minutes;
+    }
+
+    private static double getSeconds(Double totalSeconds) {
+        double seconds = (totalSeconds % 60);
+        return seconds;
     }
 
     private static double convertToSeconds(String time) {
-        
+        int colon = time.indexOf(":");
+        double minutes = Double.valueOf(time.substring(0, colon));
+        double seconds = Double.valueOf(time.substring(colon + 1));
+        return (minutes * 60) + seconds;
     }
 
 
