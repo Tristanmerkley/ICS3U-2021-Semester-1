@@ -60,7 +60,8 @@ public class CrossCountry {
  * @return
  */
     private static String convertToTime(double seconds) {
-        return getMinutes(seconds) + ":" + getSeconds(seconds); // returns getMinutes and getSeconds in the time formatting
+        //return  + ":" + ; // returns getMinutes and getSeconds in the time formatting
+        return String.format("%d:%06.3f", getMinutes(seconds), getSeconds(seconds));
     }
 
 /**
