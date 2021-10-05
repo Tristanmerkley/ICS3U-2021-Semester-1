@@ -20,19 +20,15 @@ public class CrossCountry {
         String mileOne, mileTwo, finishTime; // declares the Strings mileOne, mileTwo, finishTime
         String splitTwo, splitThree; // declares the Strings splitTwo, splitThree
 
-        System.out.print("Please enter your first name: "); // requests input for firstName
-        firstName = in.nextLine(); // sets firstName equal to the user input
-        System.out.print("Please enter your last name: "); // requests input for lastName
-        lastName = in.nextLine(); // sets lastName equal to the user input
-        System.out.print("Please enter mile one: "); // requests input for mileOne
-        mileOne = in.nextLine(); // sets mileOne equal to the user input
-        System.out.print("Please enter mile two: "); // requests input for mileTwo
-        mileTwo = in.nextLine(); // sets mileTwo equal to the user input
-        System.out.print("Please enter finish time: "); // requests input for finishTime
-        finishTime = in.nextLine(); // sets finishTime equal to the user input
+
+        firstName = promptUser("Please enter your first name: ", in); // calls promptUser and requests user's first name
+        lastName = promptUser("Please enter your last name: ", in); // calls promptUser and requests user's last name
+        mileOne = promptUser("Please enter mile one: ", in); // calls promptUser and requests user's first mile
+        mileTwo = promptUser("Please enter mile two: ", in); // calls promptUser and requests user's second mile
+        finishTime = promptUser("Please enter finish time: ", in); // calls promptUser and requests user's finish time
 
          splitTwo = subtractTimes(mileTwo, mileOne); // sets splitTwo equal to a call for subtractTimes
-         splitThree = subtractTimes(finishTime, mileTwo); // sets splitThree equal to a call for subtractTimesTr
+         splitThree = subtractTimes(finishTime, mileTwo); // sets splitThree equal to a call for subtractTimes
 
          System.out.println(lastName + " " + firstName + ":"); // prints on a new line
          System.out.println("Split one: " + mileOne); // prints on a new line
@@ -40,6 +36,16 @@ public class CrossCountry {
          System.out.println("Split three: " + splitThree); // prints on a new line
  
     }
+    /**
+     * Takes a string and scanner input and returns the user's input
+     * @param prompt
+     * @param in
+     * @return
+     */
+private static String promptUser(String prompt, Scanner in) {
+    System.out.print(prompt); // prints the inputed prompt
+    return in.nextLine(); // returns the users input
+}
 /**
  * Takes two times as string in the format of mm:ss.sss and returns the difference
  * @param endTime
