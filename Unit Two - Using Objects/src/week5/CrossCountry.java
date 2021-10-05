@@ -32,7 +32,7 @@ public class CrossCountry {
         finishTime = in.nextLine(); // sets finishTime equal to the user input
 
          splitTwo = subtractTimes(mileTwo, mileOne); // sets splitTwo equal to a call for subtractTimes
-         splitThree = subtractTimes(finishTime, mileTwo); // sets splitThree equal to a call for subtractTimes
+         splitThree = subtractTimes(finishTime, mileTwo); // sets splitThree equal to a call for subtractTimesTr
 
          System.out.println(lastName + " " + firstName + ":"); // prints on a new line
          System.out.println("Split one: " + mileOne); // prints on a new line
@@ -60,8 +60,7 @@ public class CrossCountry {
  * @return
  */
     private static String convertToTime(double seconds) {
-        //return  + ":" + ; // returns getMinutes and getSeconds in the time formatting
-        return String.format("%d:%06.3f", getMinutes(seconds), getSeconds(seconds));
+        return String.format("%d:%06.3f", getMinutes(seconds), getSeconds(seconds)); // returns the time with the formatting mm:ss.sss
     }
 
 /**
