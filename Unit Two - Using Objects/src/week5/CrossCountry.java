@@ -88,7 +88,7 @@ private static String promptUser(String prompt, Scanner in) {
         return seconds;
     }
 /**
- * Takes a String in the format mm:s.sss and returns it as seconds forma: sss.sss
+ * Takes a String in the format mm:s.sss and returns it as seconds forma: ss.sss
  * @param time
  * @return
  */
