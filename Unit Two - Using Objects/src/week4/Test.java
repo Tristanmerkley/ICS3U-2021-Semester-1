@@ -2,21 +2,16 @@ package week4;
 
 public class Test {
     public static void main(String[] args) {
-      catDog("catdog");
+      //catDog("catdog");
+      int numRounds = 5;
+      int value = 9;
+      int random = (int)(Math.random()*10);
+      for (int i = 0; i < numRounds; i++){
+      while (random != value){
+      random = (int)(Math.random()*10);
+      System.out.print(random);
     }
-    public static boolean catDog(String str) {
-      int index = 0;
-      int cats = 0;
-      int dogs = 0;
-      while(index < str.length()-2){
-        if(str.substring(index, index+3).equals("cat")){
-          cats += 1;
-        }
-        if(str.substring(index, index+3).equals("dog")){
-          dogs += 1;
-        }
-      }
-      return cats == dogs;
-    }
-    
+    System.out.println();
+  }
+}
 }
