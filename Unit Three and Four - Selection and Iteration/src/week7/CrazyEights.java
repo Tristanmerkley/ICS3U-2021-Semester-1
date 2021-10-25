@@ -32,17 +32,14 @@ public class CrazyEights {
       String playerHand = "";
       String c1Hand = "";
       String c2Hand = "";
-      playerHand = " " + getCard();
-      playerHand += " " + getCard();
-      playerHand += " " + getCard();
-
-      c1Hand = getCard() + " ";
+      for(int i = 1; i <= 5; i++){
+      playerHand += getCard() + " ";
       c1Hand += getCard() + " ";
-      c1Hand += getCard() + " ";
-
-      c2Hand = getCard() + " ";
       c2Hand += getCard() + " ";
-      c2Hand += getCard() + " ";
+      }
+      playerHand.trim();
+      c1Hand.trim();
+      c2Hand.trim();
 
       String topCard = getCard();
       while(topCard.indexOf("8")>=0){
@@ -50,7 +47,7 @@ public class CrazyEights {
       }
 
       // "7H 3D AC JS-9D"
-      while(playerHand.length() != 0 && playerHand.length() != 0 && playerHand.length() != 0){
+      while(playerHand.length() > 0 && c1Hand.length() >= 0 && c2Hand.length() >= 0){ //delete ='s when doing processComputer.
       String temp = processPlayer(playerHand, topCard, in);
       playerHand = temp.substring(0, temp.indexOf("-"));
       topCard = temp.substring(temp.indexOf("-") + 1);
@@ -91,15 +88,18 @@ public class CrazyEights {
       String response = "";
       boolean validInput = false;
       boolean redo = true;
+      int drawLimit = 0;
       while(redo){
          redo = false;
-         String face = topCard.substring(0, 1);
-         String suit = topCard.substring(1, 2);
+         int ler = topCard.length();
+         String face = topCard.substring(0, ler-1);
+         String suit = topCard.substring(ler-1, ler);
+         System.out.println("Your hand is: " + playerHand);
+         System.out.println("The top card is: " + topCard);
+         if(drawLimit < 5){
          if (playerHand.indexOf(face) >= 0 || playerHand.indexOf(suit) >= 0 || playerHand.indexOf("8") >= 0){
             while (!validInput) {
                final String VALID_CARDS = "AS2S3S4S5S6S7S8S9S10SJSQSKSAC2C3C4C5C6C7C8C9C10CJCQCKCAD2D3D4D5D6D7D8D9D10DJDQDKDAH2H3H4H5H6H7H8H9H10HJHQHKH";
-               System.out.println("Your hand is: " + playerHand);
-               System.out.println("The top card is: " + topCard);
                System.out.println("Pick a card to play: ");
                response = in.nextLine().toUpperCase();
                if (VALID_CARDS.indexOf(response) < 0) {
@@ -110,21 +110,32 @@ public class CrazyEights {
                   validInput = true;
                   System.out.println("Please pick a suit: [H-C-S-D]");
                   String temp = in.nextLine().toUpperCase();
+                  playerHand = playerHand.replace(response, "");
                   response = response.substring(0, 1) + temp;
-               }else if (topCard.substring(0,1).equals(response.substring(0, 1)) || topCard.substring(1,2).equals(response.substring(1, 2))){
+               }else if (topCard.substring(0,response.length()-2).equals(response.substring(0, response.length()-2)) || topCard.substring(response.length()-1,response.length()).equals(response.substring(response.length()-1, response.length()))){
                   validInput = true;
                }else{
                   System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
                }
             }
          }else{
-            playerHand += " " + getCard();
+            String temp = getCard();
+            playerHand += temp + " ";
+            System.out.println("No playable cards: Drawing new card ... [" + temp + "]");
+            drawLimit++;
             redo = true;
          }
+      }else{
+         System.out.println("You passed.");
+         response = topCard;
+         validInput = false;
+      }
     }
-      topCard = response;
-      playerHand = playerHand.replace(response, "");
-      System.out.println("You played [" + response + "]");
+    if(validInput){
+    topCard = response;
+    playerHand = playerHand.replace(response+" ", "");
+    System.out.println("You played [" + response + "]");
+    }
       return playerHand + "-" + topCard;
    }
 
@@ -132,7 +143,7 @@ public class CrazyEights {
    private static String processComputer(String c1Hand, String topCard, Scanner in) {
       // where all the playing logic happens
 
-      return "-9D";
+      return "-10D";
    }
 
    private static String getCard() {
