@@ -102,6 +102,7 @@ public class CrazyEights {
                final String VALID_CARDS = "AS2S3S4S5S6S7S8S9S10SJSQSKSAC2C3C4C5C6C7C8C9C10CJCQCKCAD2D3D4D5D6D7D8D9D10DJDQDKDAH2H3H4H5H6H7H8H9H10HJHQHKH";
                System.out.println("Pick a card to play: ");
                response = in.nextLine().toUpperCase();
+               int len = response.length();
                if (VALID_CARDS.indexOf(response) < 0) {
                   System.out.println("Not a valid card: " + response);
                }else if ((playerHand.indexOf(response) < 0)){
@@ -112,7 +113,7 @@ public class CrazyEights {
                   String temp = in.nextLine().toUpperCase();
                   playerHand = playerHand.replace(response, "");
                   response = response.substring(0, 1) + temp;
-               }else if (topCard.substring(0,response.length()-2).equals(response.substring(0, response.length()-2)) || topCard.substring(response.length()-1,response.length()).equals(response.substring(response.length()-1, response.length()))){
+               }else if (topCard.substring(0,len-2).equals(response.substring(0, len-2)) || topCard.substring(len-1,len).equals(response.substring(len-1, len))){
                   validInput = true;
                }else{
                   System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
@@ -126,7 +127,7 @@ public class CrazyEights {
             redo = true;
          }
       }else{
-         System.out.println("You passed.");
+         System.out.println("Draw limit of 5 reached. You passed.");
          response = topCard;
          validInput = false;
       }
