@@ -27,8 +27,6 @@ public class CrazyEights {
          System.out.println("Current score: " + p1Points + " " + c1Points + " " + c2Points);
       }
    }
-   //.trim
-
 
    private static String playRound(Scanner in) {
       String playerHand = "";
@@ -37,18 +35,12 @@ public class CrazyEights {
       playerHand = " " + getCard();
       playerHand += " " + getCard();
       playerHand += " " + getCard();
-      playerHand += " " + getCard();
-      playerHand += " " + getCard();
-      
+
       c1Hand = getCard() + " ";
-      c1Hand += getCard() + " ";
-      c1Hand += getCard() + " ";
       c1Hand += getCard() + " ";
       c1Hand += getCard() + " ";
 
       c2Hand = getCard() + " ";
-      c2Hand += getCard() + " ";
-      c2Hand += getCard() + " ";
       c2Hand += getCard() + " ";
       c2Hand += getCard() + " ";
 
@@ -99,8 +91,6 @@ public class CrazyEights {
       String response = "";
       boolean validInput = false;
       boolean redo = true;
-      int drawLimit = 0;
-      if(drawLimit < 5){
       while(redo){
          redo = false;
          String face = topCard.substring(0, 1);
@@ -118,45 +108,24 @@ public class CrazyEights {
                   System.out.println("You don't have a " + response);
                }else if (response.substring(0, 1).equals("8")){
                   validInput = true;
-                  playerHand = playerHand.replace(response, "");
-                  topCard = playCard(playerHand, response, topCard, in);
+                  System.out.println("Please pick a suit: [H-C-S-D]");
+                  String temp = in.nextLine().toUpperCase();
+                  response = response.substring(0, 1) + temp;
                }else if (topCard.substring(0,1).equals(response.substring(0, 1)) || topCard.substring(1,2).equals(response.substring(1, 2))){
                   validInput = true;
-                  playerHand = playerHand.replace(response, "");
                }else{
                   System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
                }
             }
          }else{
             playerHand += " " + getCard();
-            drawLimit++;
             redo = true;
          }
     }
-    System.out.println("You played [" + topCard + "]");
-   }else{
-      System.out.println("You passed.");
-   }
-   
+      topCard = response;
+      playerHand = playerHand.replace(response, "");
+      System.out.println("You played [" + response + "]");
       return playerHand + "-" + topCard;
-   }
-
-
-   private static String playCard(String playerHand, String response, String topCard, Scanner in) {
-      if (response.substring(0, 1).equals("8")){
-         topCard = getEightSuit(response, in);
-      }else if(topCard.substring(0,1).equals(response.substring(0, 1)) || topCard.substring(1,2).equals(response.substring(1, 2))){
-         topCard = response;
-      }
-      return topCard;
-   }
-
-
-   private static String getEightSuit(String response, Scanner in) {
-      System.out.println("Please pick a suit: [H-C-S-D]");
-      String temp = in.nextLine().toUpperCase();
-      response = response.substring(0, 1) + temp;
-      return response;
    }
 
 
