@@ -30,6 +30,7 @@ public class CrazyEights {
    }
 
    private static String playRound(Scanner in ) {
+      boolean uno = false;
       String playerHand = "";
       String c1Hand = "";
       String c2Hand = "";
@@ -48,15 +49,16 @@ public class CrazyEights {
       }
 
       // "7H 3D AC JS-9D"
-      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { // delete ='s when doing
-         // processComputer.
+      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { //*  delete ='s when doing
          String temp = processPlayer(playerHand, topCard, in );
          playerHand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
-         temp = processComputer(c1Hand, topCard, in );
+         uno = playerHand.length() > 0;
+         temp = processComputer(c1Hand, topCard, uno, in );
          c1Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
-         temp = processComputer(c2Hand, topCard, in );
+         uno = c1Hand.length() > 0;
+         temp = processComputer(c2Hand, topCard, uno, in );
          c2Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
       }
@@ -146,36 +148,29 @@ public class CrazyEights {
       if (validInput) {
          topCard = response;
          playerHand = playerHand.replace(response + " ", "");
-         System.out.println("You played [" + response + "]");
-         System.out.println("----------------------");
+         System.out.println("\n\nYou played [" + response + "]");
+         System.out.println("\n-----------------------------------\n");
       }
       return playerHand + "-" + topCard;
    }
 
-   // length is 2 more than highest possible selection
-   // 6H7C8D7D9D
-   // 0, 3, 6, 9
-   // get input .substring(input, input+2)
-   private static String processComputer(String hand, String topCard, Scanner in ) {
+   private static String processComputer(String hand, String topCard, Boolean uno, Scanner in ) {
       // where all the playing logic happens
       String selection = "";
       boolean redo = true;
       int drawLimit = 0;
-      //boolean uno = false; //! change to take input when method is called
       int ler = topCard.length();
       String face = topCard.substring(0, ler - 1);
       String suit = topCard.substring(ler - 1);
       String suits = "HCSD";
-      // check if selection's suit is same as top card's suit.
-      // todo - add functionallity for rule #4
-      //if(uno){
+      Boolean checkUno = hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0 && uno;
       while (redo) {
          redo = false;
          System.out.println("Computer's hand is: " + hand); // for degbugging
          System.out.println("The top card is: " + topCard); // for degbugging
          if (drawLimit < 5) {
             int len = hand.indexOf(suit);
-            if (len >= 0 && !hand.substring(len - 1, len).equals("8")) {
+            if (len >= 0 && !hand.substring(len - 1, len).equals("8") && !checkUno) {
                if (!hand.substring(len - 1, len).equals("0"))
                   selection = hand.substring(len - 1, len + 1);
                else {
@@ -207,12 +202,10 @@ public class CrazyEights {
             redo = false;
          }
       }
-      // }
       topCard = selection;
       hand = hand.replace(selection + " ", "");
-      System.out.println("Computer played [" + selection + "]");
+      System.out.println("\nComputer played [" + selection + "]");
       return hand + "-" + topCard;
-      // return "-10D"; // for testing
    }
 
    private static String getCard() {
