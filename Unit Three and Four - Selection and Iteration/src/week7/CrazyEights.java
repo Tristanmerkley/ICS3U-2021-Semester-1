@@ -168,7 +168,6 @@ public class CrazyEights {
          System.out.println("The top card is: " + topCard); // for degbugging
          if (drawLimit < 5) {
             int len = hand.indexOf(suit);
-            //! add functionallity for if face == 10.
             if (len >= 0 && !(hand.substring(len-1, len).equals("8"))) {
                if(hand.substring(len-2, len-1).equals(" "))
                selection = hand.substring(len-1, len+1);
