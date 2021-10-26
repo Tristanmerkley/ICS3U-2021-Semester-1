@@ -91,8 +91,8 @@ public class CrazyEights {
       while (redo) {
          redo = false;
          int ler = topCard.length();
-         String face = topCard.substring(0, ler - 1);
-         String suit = topCard.substring(ler - 1, ler);
+         String face = topCard.substring(0, ler-1);
+         String suit = topCard.substring(ler-1);
          System.out.println("Your hand is: " + playerHand);
          System.out.println("The top card is: " + topCard);
          if (drawLimit < 5) {
@@ -120,7 +120,7 @@ public class CrazyEights {
                            System.out.println("That is not a valid suit!!");
                         }
                      }
-                  } else if (topCard.substring(0, len - 2).equals(response.substring(0, len - 2)) || topCard.substring(len - 1, len).equals(response.substring(len - 1, len))) {
+                  } else if (topCard.substring(0, len - 1).equals(response.substring(0, len - 1)) || topCard.substring(len - 1).equals(response.substring(len - 1))) {
                      validInput = true;
                   } else {
                      System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
@@ -157,8 +157,8 @@ public class CrazyEights {
       boolean redo = true;
       int drawLimit = 0;
       int ler = topCard.length();
-      String face = topCard.substring(0, ler - 1);
-      String suit = topCard.substring(ler - 1, ler);
+      String face = topCard.substring(0, ler-1);
+      String suit = topCard.substring(ler-1);
       // check if selection's suit is same as top card's suit.
       //! add functionallity for rule #4
       //if(!(hand.length() == 1)){
@@ -167,16 +167,18 @@ public class CrazyEights {
          System.out.println("Computer's hand is: " + hand); // for degbugging
          System.out.println("The top card is: " + topCard); // for degbugging
          if (drawLimit < 5) {
+            int len = hand.indexOf(suit);
             //! add functionallity for if face == 10.
-            if (hand.indexOf(suit) >= 0) {
-               int index = hand.indexOf(suit);
-               selection = hand.substring(index-1, index+1);
+            if (len >= 0 && !(hand.substring(len-1, len).equals("8"))) {
+               if(hand.substring(len-2, len-1).equals(" "))
+               selection = hand.substring(len-1, len+1);
+               else {selection = hand.substring(len-2, len+1);}
             }else if (hand.indexOf(face) >= 0){
                int index = hand.indexOf(face);
-               selection = hand.substring(index, index+2);
+               selection = hand.substring(index, index+face.length()+1);
             }else if(hand.indexOf("8") >= 0){
                int index = hand.indexOf("8");
-               int random = (int)(Math.random()*4);
+               int random = (int)(Math.random()*5); //! change to only use suits in hand.
                hand = hand.replace(hand.substring(index, index+2)+" ", "");
                selection = "DSHC".substring(random, random+1);
                selection = "8" + selection;
