@@ -48,10 +48,10 @@ public class CrazyEights {
 
       // "7H 3D AC JS-9D"
       while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { //delete ='s when doing processComputer.
-         //String temp = processPlayer(playerHand, topCard, in );
-         //playerHand = temp.substring(0, temp.indexOf("-"));
-         //topCard = temp.substring(temp.indexOf("-") + 1);
-         String temp = processComputer(c1Hand, topCard, in );
+         String temp = processPlayer(playerHand, topCard, in );
+         playerHand = temp.substring(0, temp.indexOf("-"));
+         topCard = temp.substring(temp.indexOf("-") + 1);
+         temp = processComputer(c1Hand, topCard, in );
          c1Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
          temp = processComputer(c2Hand, topCard, in );
@@ -164,7 +164,7 @@ public class CrazyEights {
       //if(!(hand.length() == 1)){
       while (redo) {
          redo = false;
-         System.out.println("Your hand is: " + hand); // for degbugging
+         System.out.println("Computer's hand is: " + hand); // for degbugging
          System.out.println("The top card is: " + topCard); // for degbugging
          if (drawLimit < 5) {
             //! add functionallity for if face == 10.
@@ -189,7 +189,7 @@ public class CrazyEights {
                redo = true;
             }
          }else {
-            System.out.println("Draw limit of 5 reached. You passed."); // for debugging
+            System.out.println("Draw limit of 5 reached. Computer passed."); // for debugging
             selection = topCard;
             redo = false;
          }
@@ -197,7 +197,7 @@ public class CrazyEights {
    //}
          topCard = selection;
          hand = hand.replace(selection + " ", "");
-         System.out.println("You played [" + selection + "]");
+         System.out.println("Computer played [" + selection + "]");
          hand.trim();
       return hand + "-" + topCard;
       // return "-10D"; // for testing
