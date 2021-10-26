@@ -13,6 +13,7 @@ public class CrazyEights {
    private static final String JACK = "J";
    private static final String QUEEN = "Q";
    private static final String KING = "K";
+
    public static void main(String[] args) {
       int p1Points = 0, c1Points = 0, c2Points = 0;
       Scanner in = new Scanner(System.in);
@@ -47,7 +48,8 @@ public class CrazyEights {
       }
 
       // "7H 3D AC JS-9D"
-      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { //delete ='s when doing processComputer.
+      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { // delete ='s when doing
+         // processComputer.
          String temp = processPlayer(playerHand, topCard, in );
          playerHand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
@@ -91,8 +93,8 @@ public class CrazyEights {
       while (redo) {
          redo = false;
          int ler = topCard.length();
-         String face = topCard.substring(0, ler-1);
-         String suit = topCard.substring(ler-1);
+         String face = topCard.substring(0, ler - 1);
+         String suit = topCard.substring(ler - 1);
          System.out.println("Your hand is: " + playerHand);
          System.out.println("The top card is: " + topCard);
          if (drawLimit < 5) {
@@ -113,14 +115,15 @@ public class CrazyEights {
                         String temp = in .nextLine().substring(0, 1).toUpperCase();
                         if ("HCSD".indexOf(temp) >= 0) {
                            int res = playerHand.indexOf(response);
-                           playerHand = playerHand.replace(playerHand.substring(res, res+2)+" ", "");
+                           playerHand = playerHand.replace(playerHand.substring(res, res + 2) + " ", "");
                            response = response.substring(0, 1) + temp;
                            valid = true;
                         } else {
                            System.out.println("That is not a valid suit!!");
                         }
                      }
-                  } else if (topCard.substring(0, len - 1).equals(response.substring(0, len - 1)) || topCard.substring(len - 1).equals(response.substring(len - 1))) {
+                  } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1)) ||
+                     topCard.substring(ler - 1).equals(response.substring(len - 1))) {
                      validInput = true;
                   } else {
                      System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
@@ -144,9 +147,11 @@ public class CrazyEights {
          topCard = response;
          playerHand = playerHand.replace(response + " ", "");
          System.out.println("You played [" + response + "]");
+         System.out.println("----------------------");
       }
       return playerHand + "-" + topCard;
    }
+
    // length is 2 more than highest possible selection
    // 6H7C8D7D9D
    // 0, 3, 6, 9
@@ -156,50 +161,56 @@ public class CrazyEights {
       String selection = "";
       boolean redo = true;
       int drawLimit = 0;
+      //boolean uno = false; //! change to take input when method is called
       int ler = topCard.length();
-      String face = topCard.substring(0, ler-1);
-      String suit = topCard.substring(ler-1);
+      String face = topCard.substring(0, ler - 1);
+      String suit = topCard.substring(ler - 1);
+      String suits = "HCSD";
       // check if selection's suit is same as top card's suit.
-      //! add functionallity for rule #4
-      //if(!(hand.length() == 1)){
+      // todo - add functionallity for rule #4
+      //if(uno){
       while (redo) {
          redo = false;
          System.out.println("Computer's hand is: " + hand); // for degbugging
          System.out.println("The top card is: " + topCard); // for degbugging
          if (drawLimit < 5) {
             int len = hand.indexOf(suit);
-            if (len >= 0 && !(hand.substring(len-1, len).equals("8"))) {
-               if(hand.substring(len-2, len-1).equals(" "))
-               selection = hand.substring(len-1, len+1);
-               else {selection = hand.substring(len-2, len+1);}
-            }else if (hand.indexOf(face) >= 0){
+            if (len >= 0 && !hand.substring(len - 1, len).equals("8")) {
+               if (!hand.substring(len - 1, len).equals("0"))
+                  selection = hand.substring(len - 1, len + 1);
+               else {
+                  selection = hand.substring(len - 2, len + 1);
+               }
+            } else if (hand.indexOf(face) >= 0 && !face.equals("8")) {
                int index = hand.indexOf(face);
-               selection = hand.substring(index, index+face.length()+1);
-            }else if(hand.indexOf("8") >= 0){
+               selection = hand.substring(index, index + face.length() + 1);
+            } else if (hand.indexOf("8") >= 0) {
                int index = hand.indexOf("8");
-               int random = (int)(Math.random()*5); //! change to only use suits in hand.
-               hand = hand.replace(hand.substring(index, index+2)+" ", "");
-               selection = "DSHC".substring(random, random+1);
-               selection = "8" + selection;
-               // chose suit from options in hand.
-            }else{
+               for (int i = 0; i < suits.length(); i++) {
+                  suits = suits.substring(i, i + 1);
+                  if (hand.indexOf(suits) >= 0)
+                     selection += suits;
+               }
+               int random = (int)(Math.random() * suits.length());
+               selection = "8" + suits.substring(random, random + 1);
+               hand = hand.replace(hand.substring(index, index + 2) + " ", "");
+            } else {
                String temp = getCard();
                hand += temp + " ";
                System.out.println("No playable cards: Drawing new card ... [" + temp + "]"); // for debugging
                drawLimit++;
                redo = true;
             }
-         }else {
+         } else {
             System.out.println("Draw limit of 5 reached. Computer passed."); // for debugging
             selection = topCard;
             redo = false;
          }
       }
-   //}
-         topCard = selection;
-         hand = hand.replace(selection + " ", "");
-         System.out.println("Computer played [" + selection + "]");
-         hand.trim();
+      // }
+      topCard = selection;
+      hand = hand.replace(selection + " ", "");
+      System.out.println("Computer played [" + selection + "]");
       return hand + "-" + topCard;
       // return "-10D"; // for testing
    }
