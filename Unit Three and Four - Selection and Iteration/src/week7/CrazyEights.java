@@ -60,8 +60,7 @@ public class CrazyEights {
          topCard = getCard();
       }
 
-      // "7H 3D AC JS-9D"
-      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) { // * delete ='s when doing
+      while (playerHand.length() > 0 && c1Hand.length() > 0 && c2Hand.length() > 0) {
          String temp = processPlayer(playerHand, topCard, in);
          playerHand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
@@ -77,7 +76,7 @@ public class CrazyEights {
       int playerScore = score(playerHand, topCard);
       int c1Score = score(c1Hand, topCard);
       int c2Score = score(c2Hand, topCard);
-      return playerScore + "-" + c1Score + "-" + c2Score; // *"32-12-2"
+      return playerScore + "-" + c1Score + "-" + c2Score;
    }
 
    private static int score(String hand, String topCard) {
