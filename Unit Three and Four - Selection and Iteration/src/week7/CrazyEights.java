@@ -194,7 +194,7 @@ public class CrazyEights {
                   if (hand.indexOf(temp) >= 0)
                      selection += temp;
                }
-               int random = (int) (Math.random() * selection.length()); // !
+               int random = (int) (Math.random() * selection.length());
                selection = "8" + selection.substring(random, random + 1);
                hand = hand.replace(hand.substring(index, index + 2) + " ", "");
             } else {
