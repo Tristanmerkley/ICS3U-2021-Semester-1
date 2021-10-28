@@ -109,8 +109,7 @@ public class CrazyEights {
          int ler = topCard.length();
          String face = topCard.substring(0, ler - 1);
          String suit = topCard.substring(ler - 1);
-         System.out.println("Your hand is: " + playerHand);
-         System.out.println("The top card is: " + topCard);
+         context(playerHand, topCard, "Your");
          if (drawLimit < 5) {
             if (playerHand.indexOf(face) >= 0 || playerHand.indexOf(suit) >= 0 || playerHand.indexOf("8") >= 0) {
                while (!validInput) {
@@ -118,10 +117,10 @@ public class CrazyEights {
                   System.out.println("Pick a card to play: ");
                   response = in.nextLine().toUpperCase();
                   int len = response.length();
-                  if (VALID_CARDS.indexOf(response) < 0) {
+                  if (VALID_CARDS.indexOf(response) < 0 || response.equals("")) {
                      System.out.println("Not a valid card: " + response);
-                  } else if ((playerHand.indexOf(response) < 0)) {
-                     System.out.println("You don't have a " + response);
+                  } else if (playerHand.indexOf(response) < 0) {
+                     System.out.println("You don't have a [" + response + "]");
                   } else if (response.substring(0, 1).equals("8")) {
                      validInput = true;
                      while (!valid) {
@@ -133,20 +132,20 @@ public class CrazyEights {
                            response = response.substring(0, 1) + temp;
                            valid = true;
                         } else {
-                           System.out.println("That is not a valid suit!!");
+                           System.out.println(temp + "is not a valid suit!!");
                         }
                      }
                   } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1))
                         || topCard.substring(ler - 1).equals(response.substring(len - 1))) {
                      validInput = true;
                   } else {
-                     System.out.println("You can not play [" + response + "] onto [" + topCard + "]");
+                     System.out.println("\nYou can not play [" + response + "] onto [" + topCard + "]");
                   }
                }
             } else {
                String temp = getCard();
                playerHand += temp + " ";
-               System.out.println("No playable cards: Drawing new card ... [" + temp + "]");
+               System.out.println("\nNo playable cards: Drawing new card ... [" + temp + "]\n");
                drawLimit++;
                redo = true;
             }
@@ -160,10 +159,16 @@ public class CrazyEights {
       if (validInput) {
          topCard = response;
          playerHand = playerHand.replace(response + " ", "");
-         System.out.println("\n\nYou played [" + response + "]");
+         System.out.println("\nYou played [" + response + "]");
          System.out.println("\n-----------------------------------\n");
       }
       return playerHand + "-" + topCard;
+   }
+
+   private static void context(String hand, String topCard, String name) {
+      String tempHand = hand.replace(" ", "] [");
+      System.out.println(name + " hand is: [" + tempHand.substring(0, tempHand.length() - 2));
+      System.out.println("The top card is: [" + topCard + "]");
    }
 
    private static String processComputer(String hand, String topCard, boolean uno, Scanner in) {
@@ -178,17 +183,17 @@ public class CrazyEights {
       Boolean checkUno = (hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0) && uno;
       while (redo) {
          redo = false;
-         System.out.println("Computer's hand is: " + hand); // !for debugging
-         System.out.println("The top card is: " + topCard); // !for debugging
+         context(hand, topCard, "Computer"); // !for debugging
          if (drawLimit < 5) {
             int len = hand.indexOf(suit);
+            int indexFace = hand.indexOf(face);
             if (len >= 0 && !hand.substring(len - 1, len).equals("8") && !checkUno) {
                if (!hand.substring(len - 1, len).equals("0"))
                   selection = hand.substring(len - 1, len + 1);
                else {
                   selection = hand.substring(len - 2, len + 1);
                }
-            } else if (hand.indexOf(face) >= 0 && !face.equals("8")) {
+            } else if (indexFace >= 0 && !hand.substring(indexFace, indexFace + 1).equals("8")) {
                int index = hand.indexOf(face);
                selection = hand.substring(index, index + face.length() + 1);
             } else if (hand.indexOf("8") >= 0) {
@@ -216,7 +221,8 @@ public class CrazyEights {
       }
       topCard = selection;
       hand = hand.replace(selection + " ", "");
-      System.out.println("\nComputer played [" + selection + "]");
+      System.out.println("Computer played [" + selection + "]");
+      System.out.println("\n-----------------------------------\n");
       return hand + "-" + topCard;
    }
 
