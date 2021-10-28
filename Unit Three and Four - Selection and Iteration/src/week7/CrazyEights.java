@@ -64,14 +64,15 @@ public class CrazyEights {
          String temp = processPlayer(playerHand, topCard, in);
          playerHand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
-         uno = playerHand.length() > 0;
+         uno = uno || playerHand.length() <= 3;
          temp = processComputer(c1Hand, topCard, uno, in);
          c1Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
-         uno = c1Hand.length() > 0;
+         uno = uno || c1Hand.length() <= 3;
          temp = processComputer(c2Hand, topCard, uno, in);
          c2Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
+         uno = uno || c2Hand.length() <= 3;
       }
       int playerScore = score(playerHand, topCard);
       int c1Score = score(c1Hand, topCard);
@@ -165,7 +166,7 @@ public class CrazyEights {
       return playerHand + "-" + topCard;
    }
 
-   private static String processComputer(String hand, String topCard, Boolean uno, Scanner in) {
+   private static String processComputer(String hand, String topCard, boolean uno, Scanner in) {
       // where all the playing logic happens
       String selection = "";
       boolean redo = true;
@@ -174,7 +175,7 @@ public class CrazyEights {
       String face = topCard.substring(0, ler - 1);
       String suit = topCard.substring(ler - 1);
       String suits = "HCSD";
-      Boolean checkUno = hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0 && uno;
+      Boolean checkUno = (hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0) && uno;
       while (redo) {
          redo = false;
          System.out.println("Computer's hand is: " + hand); // !for debugging
@@ -193,9 +194,9 @@ public class CrazyEights {
             } else if (hand.indexOf("8") >= 0) {
                int index = hand.indexOf("8");
                for (int i = 0; i < suits.length(); i++) {
-                  suits = suits.substring(i, i + 1);
-                  if (hand.indexOf(suits) >= 0)
-                     selection += suits;
+                  String temp = suits.substring(i, i + 1);
+                  if (hand.indexOf(temp) >= 0)
+                     selection += temp;
                }
                int random = (int) (Math.random() * suits.length());
                selection = "8" + suits.substring(random, random + 1);
