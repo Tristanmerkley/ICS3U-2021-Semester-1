@@ -100,10 +100,12 @@ public class CrazyEights {
    private static String processPlayer(String playerHand, String topCard, Scanner in) {
       // * where all the playing logic happens
       String response = "";
+      int len = 0;
       boolean validInput = false;
       boolean redo = true;
       boolean valid = false;
       int drawLimit = 0;
+      int cardIndex = 0;
       while (redo) {
          redo = false;
          int ler = topCard.length();
@@ -116,7 +118,8 @@ public class CrazyEights {
                   final String VALID_CARDS = "AS2S3S4S5S6S7S8S9S10SJSQSKSAC2C3C4C5C6C7C8C9C10CJCQCKCAD2D3D4D5D6D7D8D9D10DJDQDKDAH2H3H4H5H6H7H8H9H10HJHQHKH";
                   System.out.println("Pick a card to play: ");
                   response = in.nextLine().toUpperCase();
-                  int len = response.length();
+                  len = response.length();
+                  cardIndex = playerHand.indexOf(response);
                   if (VALID_CARDS.indexOf(response) < 0 || response.equals("")) {
                      System.out.println("Not a valid card: " + response);
                   } else if (playerHand.indexOf(response) < 0) {
@@ -127,9 +130,8 @@ public class CrazyEights {
                         System.out.println("Please pick a suit: [Hearts-Clubs-Spades-Diamonds]");
                         String temp = in.nextLine().substring(0, 1).toUpperCase();
                         if ("HCSD".indexOf(temp) >= 0) {
-                           int res = playerHand.indexOf(response);
-                           playerHand = playerHand.replace(playerHand.substring(res, res + 2) + " ", "");
                            response = response.substring(0, 1) + temp;
+                           len = 2;
                            valid = true;
                         } else {
                            System.out.println(temp + "is not a valid suit!!");
@@ -158,8 +160,7 @@ public class CrazyEights {
       }
       if (validInput) {
          topCard = response;
-         int cardIndex = playerHand.indexOf(response);
-         playerHand = playerHand.substring(0, cardIndex) + playerHand.substring(cardIndex + response.length());
+         playerHand = playerHand.replace(playerHand.substring(cardIndex, cardIndex + len + 1), "");
          System.out.println("\nYou played [" + response + "]");
          System.out.println("\n-----------------------------------\n");
       }
