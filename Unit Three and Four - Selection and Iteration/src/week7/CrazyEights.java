@@ -158,7 +158,8 @@ public class CrazyEights {
       }
       if (validInput) {
          topCard = response;
-         playerHand = playerHand.replace(response + " ", "");
+         int cardIndex = playerHand.indexOf(response);
+         playerHand = playerHand.substring(0, cardIndex) + playerHand.substring(cardIndex + response.length());
          System.out.println("\nYou played [" + response + "]");
          System.out.println("\n-----------------------------------\n");
       }
