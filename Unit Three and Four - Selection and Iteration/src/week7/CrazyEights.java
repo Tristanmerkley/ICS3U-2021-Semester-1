@@ -188,13 +188,14 @@ public class CrazyEights {
                selection = hand.substring(index, index + face.length() + 1);
             } else if (hand.indexOf("8") >= 0) {
                int index = hand.indexOf("8");
+               String temp = "";
                for (int i = 0; i < suits.length(); i++) {
-                  String temp = suits.substring(i, i + 1);
+                  temp = suits.substring(i, i + 1);
                   if (hand.indexOf(temp) >= 0)
                      selection += temp;
                }
-               int random = (int) (Math.random() * suits.length());
-               selection = "8" + suits.substring(random, random + 1);
+               int random = (int) (Math.random() * selection.length()); // !
+               selection = "8" + selection.substring(random, random + 1);
                hand = hand.replace(hand.substring(index, index + 2) + " ", "");
             } else {
                String temp = getCard();
