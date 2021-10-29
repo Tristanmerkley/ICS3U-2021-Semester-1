@@ -25,8 +25,8 @@ public class CrazyEights {
          c1Points += Integer.parseInt(result.substring(firstDash + 1, secondDash));
          c2Points += Integer.parseInt(result.substring(secondDash + 1));
 
-         System.out.println(
-               "Your score: " + p1Points + "Computer 1's score: " + c1Points + "Computer 2's score: " + c2Points);
+         System.out.println("\n\nYour score: " + p1Points + "\n\nComputer 1's score: " + c1Points
+               + "\n\nComputer 2's score: " + c2Points);
       }
       System.out.println(getWinner(p1Points, c1Points, c2Points));
    }
@@ -122,6 +122,8 @@ public class CrazyEights {
                         System.out.println("Please pick a suit: [Hearts-Clubs-Spades-Diamonds]");
                         String temp = in.nextLine().substring(0, 1).toUpperCase();
                         if ("HCSD".indexOf(temp) >= 0) {
+                           playerHand = playerHand.replaceFirst(playerHand.substring(cardIndex, cardIndex + 2) + " ",
+                                 "");
                            response = response.substring(0, 1) + temp;
                            len = 2;
                            valid = true;
@@ -150,7 +152,7 @@ public class CrazyEights {
       }
       if (validInput) {
          topCard = response;
-         playerHand = playerHand.replace(playerHand.substring(cardIndex, cardIndex + len + 1), "");
+         playerHand = playerHand.replaceFirst(response + " ", "");
          System.out.println("\nYou played [" + response + "]");
          System.out.println("\n-----------------------------------\n");
       }
@@ -196,7 +198,7 @@ public class CrazyEights {
                }
                int random = (int) (Math.random() * selection.length());
                selection = "8" + selection.substring(random, random + 1);
-               hand = hand.replace(hand.substring(index, index + 2) + " ", "");
+               hand = hand.replaceFirst(hand.substring(index, index + 2) + " ", "");
             } else {
                String temp = getCard();
                hand += temp + " ";
