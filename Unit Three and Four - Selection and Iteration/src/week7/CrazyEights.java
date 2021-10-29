@@ -24,9 +24,7 @@ public class CrazyEights {
          p1Points += Integer.parseInt(result.substring(0, firstDash));
          c1Points += Integer.parseInt(result.substring(firstDash + 1, secondDash));
          c2Points += Integer.parseInt(result.substring(secondDash + 1));
-
-         System.out.println("\n\nYour score: " + p1Points + "\n\nComputer 1's score: " + c1Points
-               + "\n\nComputer 2's score: " + c2Points);
+         System.out.println("\n\nYour score: " + p1Points + "\n\nComputer 1's score: " + c1Points + "\n\nComputer 2's score: " + c2Points);
       }
       System.out.println(getWinner(p1Points, c1Points, c2Points));
    }
@@ -112,9 +110,9 @@ public class CrazyEights {
                   response = in.nextLine().toUpperCase();
                   len = response.length();
                   cardIndex = playerHand.indexOf(response);
-                  if (VALID_CARDS.indexOf(response) < 0 || response.equals("")) {
+                  if (VALID_CARDS.indexOf(response) < 0 || response.equals("")) { // checks if player input is a valid card
                      System.out.println("Not a valid card: " + response);
-                  } else if (playerHand.indexOf(response) < 0) {
+                  } else if (playerHand.indexOf(response) < 0) { // checks if inputed card is in hand
                      System.out.println("You don't have a [" + response + "]");
                   } else if (response.substring(0, 1).equals("8")) {
                      validInput = true;
@@ -122,16 +120,15 @@ public class CrazyEights {
                         System.out.println("Please pick a suit: [Hearts-Clubs-Spades-Diamonds]");
                         String temp = in.nextLine().substring(0, 1).toUpperCase();
                         if ("HCSD".indexOf(temp) >= 0) {
-                           playerHand = playerHand.replaceFirst(playerHand.substring(cardIndex, cardIndex + 2) + " ",
-                                 "");
+                           playerHand = playerHand.replaceFirst(playerHand.substring(cardIndex, cardIndex + 2) + " ", "");
                            response = response.substring(0, 1) + temp;
                            len = 2;
                            valid = true;
                         } else
                            System.out.println(temp + "is not a valid suit!!");
                      }
-                  } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1))
-                        || topCard.substring(ler - 1).equals(response.substring(len - 1))) {
+                  } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1)) ||
+                     topCard.substring(ler - 1).equals(response.substring(len - 1))) {
                      validInput = true;
                   } else
                      System.out.println("\nYou can not play [" + response + "] onto [" + topCard + "]");
