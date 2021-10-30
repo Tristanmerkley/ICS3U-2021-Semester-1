@@ -9,6 +9,7 @@ public class CrazyEights {
       int p1Points = 0, c1Points = 0, c2Points = 0;
       Scanner in = new Scanner(System.in);
       while (!gameOver(p1Points, c1Points, c2Points)) {
+         System.out.println("\nStarting round .......................... \n\n");
          String result = playRound(in);
          int firstDash = result.indexOf("-");
          int secondDash = result.indexOf("-", firstDash + 1);
@@ -63,14 +64,15 @@ public class CrazyEights {
          topCard = temp.substring(temp.indexOf("-") + 1);
          uno = uno || c2Hand.length() <= 3;
       }
-      return score(playerHand, topCard) + "-" + score(c1Hand, topCard) + "-" + score(c2Hand, topCard);
+      return score(playerHand) + "-" + score(c1Hand) + "-" + score(c2Hand);
    }
 
-   private static int score(String hand, String topCard) {
+   private static int score(String hand) {
       int score = 0;
+      hand = hand.replaceAll("10", "X");
       for (int i = 0; i < hand.length(); i += 3) {
          String face = hand.substring(i, i + 1);
-         if ("10JQK".indexOf(face) >= 0)
+         if ("XJQK".indexOf(face) >= 0)
             score += 10;
          else if (face.equals("A"))
             score += 1;
@@ -167,7 +169,7 @@ public class CrazyEights {
    }
 
    private static String response(String topCard, String hand) {
-      System.out.println("\nYou played [" + topCard + "]");
+      System.out.println("\nPlayed [" + topCard + "]");
       System.out.println("\n-----------------------------------\n");
       return hand.replaceFirst(topCard + " ", "") + "-" + topCard;
    }
