@@ -3,16 +3,7 @@ package week7;
 import java.util.Scanner;
 
 public class CrazyEights {
-   private static final int NUM_SUITS = 4;
-   private static final String HEARTS = "H";
-   private static final String DIAMONDS = "D";
-   private static final String CLUBS = "C";
-   private static final String SPADES = "S";
    private static final double CARDS_PER_SUIT = 13;
-   private static final String ACE = "A";
-   private static final String JACK = "J";
-   private static final String QUEEN = "Q";
-   private static final String KING = "K";
 
    public static void main(String[] args) {
       int p1Points = 0, c1Points = 0, c2Points = 0;
@@ -49,6 +40,9 @@ public class CrazyEights {
          c1Hand += getCard() + " ";
          c2Hand += getCard() + " ";
       }
+      playerHand.trim();
+      c1Hand.trim();
+      c2Hand.trim();
 
       String topCard = getCard();
       while (topCard.indexOf("8") >= 0) {
@@ -88,6 +82,28 @@ public class CrazyEights {
       return score;
    }
 
+   private static String playable(String playerHand, String face, String suit) {
+      String playable = "";
+      while (playerHand.indexOf(face) >= 0 || playerHand.indexOf(suit) >= 0 || playerHand.indexOf("8") >= 0) {
+         int eightIndex = playerHand.indexOf("8");
+         int suitIndex = playerHand.indexOf(suit);
+         int faceIndex = playerHand.indexOf(face);
+         String temp = "";
+         if (faceIndex >= 0) {
+            temp = playerHand.substring(faceIndex, playerHand.indexOf(" ", faceIndex));
+         } else if (suitIndex >= 0) {
+            if (!playerHand.substring(suitIndex - 1, suitIndex).equals("0"))
+               temp = playerHand.substring(suitIndex - 1, suitIndex + 1);
+            else
+               temp = playerHand.substring(suitIndex - 2, suitIndex + 1);
+         } else if (eightIndex >= 0)
+            temp = playerHand.substring(eightIndex, playerHand.indexOf(" ", eightIndex));
+         playerHand = playerHand.replaceFirst(temp + " ", "");
+         playable += temp.trim() + " ";
+      }
+      return playable;
+   }
+
    private static String processPlayer(String playerHand, String topCard, Scanner in) {
       String response = "";
       int len = 0;
@@ -103,7 +119,8 @@ public class CrazyEights {
          String suit = topCard.substring(ler - 1);
          context(playerHand, topCard, "Your");
          if (drawLimit < 5) {
-            if (playerHand.indexOf(face) >= 0 || playerHand.indexOf(suit) >= 0 || playerHand.indexOf("8") >= 0) {
+            String playable = playable(playerHand, face, suit);
+            if (playable.length() > 1) {
                while (!validInput) {
                   final String VALID_CARDS = "AS2S3S4S5S6S7S8S9S10SJSQSKSAC2C3C4C5C6C7C8C9C10CJCQCKCAD2D3D4D5D6D7D8D9D10DJDQDKDAH2H3H4H5H6H7H8H9H10HJHQHKH";
                   System.out.println("Pick a card to play: ");
@@ -127,11 +144,10 @@ public class CrazyEights {
                         } else
                            System.out.println(temp + "is not a valid suit!!");
                      }
-                  } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1)) ||
-                     topCard.substring(ler - 1).equals(response.substring(len - 1))) {
+                  } else if (topCard.substring(0, ler - 1).equals(response.substring(0, len - 1)) || topCard.substring(ler - 1).equals(response.substring(len - 1))) {
                      validInput = true;
                   } else
-                     System.out.println("\nYou can not play [" + response + "] onto [" + topCard + "]");
+                     System.out.println("\nYou can not play [" + response + "] onto [" + topCard + "] Valid inputs include: [" + playable.trim().replace(" ", "] [") + "]");
                }
             } else {
                String temp = getCard();
@@ -147,13 +163,13 @@ public class CrazyEights {
             validInput = false;
          }
       }
-      if (validInput) {
-         topCard = response;
-         playerHand = playerHand.replaceFirst(response + " ", "");
-         System.out.println("\nYou played [" + response + "]");
-         System.out.println("\n-----------------------------------\n");
-      }
-      return playerHand + "-" + topCard;
+      return response(response, playerHand);
+   }
+
+   private static String response(String topCard, String hand) {
+      System.out.println("\nYou played [" + topCard + "]");
+      System.out.println("\n-----------------------------------\n");
+      return hand.replaceFirst(topCard + " ", "") + "-" + topCard;
    }
 
    private static void context(String hand, String topCard, String name) {
@@ -169,7 +185,6 @@ public class CrazyEights {
       int ler = topCard.length();
       String face = topCard.substring(0, ler - 1);
       String suit = topCard.substring(ler - 1);
-      String suits = "HCSD";
       Boolean checkUno = (hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0) && uno;
       while (redo) {
          redo = false;
@@ -188,8 +203,8 @@ public class CrazyEights {
             } else if (hand.indexOf("8") >= 0) {
                int index = hand.indexOf("8");
                String temp = "";
-               for (int i = 0; i < suits.length(); i++) {
-                  temp = suits.substring(i, i + 1);
+               for (int i = 0; i < 4; i++) {
+                  temp = "HCSD".substring(i, i + 1);
                   if (hand.indexOf(temp) >= 0)
                      selection += temp;
                }
@@ -209,11 +224,7 @@ public class CrazyEights {
             redo = false;
          }
       }
-      topCard = selection;
-      hand = hand.replace(selection + " ", "");
-      System.out.println("Computer played [" + selection + "]");
-      System.out.println("\n-----------------------------------\n");
-      return hand + "-" + topCard;
+      return response(selection, hand);
    }
 
    private static String getCard() {
@@ -222,15 +233,15 @@ public class CrazyEights {
    }
 
    private static String getSuit() {
-      int suit = (int) (Math.random() * NUM_SUITS);
+      int suit = (int) (Math.random() * 4);
       if (suit == 0)
-         return HEARTS;
+         return "H";
       else if (suit == 1)
-         return DIAMONDS;
+         return "D";
       else if (suit == 2)
-         return CLUBS;
+         return "C";
       else
-         return SPADES;
+         return "S";
    }
 
    private static String getFace() {
@@ -238,13 +249,13 @@ public class CrazyEights {
       if (suit >= 2 && suit <= 10)
          return suit + "";
       else if (suit == 1)
-         return ACE;
+         return "A";
       else if (suit == 11)
-         return JACK;
+         return "J";
       else if (suit == 12)
-         return QUEEN;
+         return "Q";
       else
-         return KING;
+         return "K";
 
    }
 
