@@ -194,7 +194,7 @@ public class CrazyEights {
                      }
                   } else if (playable.indexOf(response) >= 0) { // checks if the inputed card can be played
                      validInput = true;
-                     playerHand = playerHand.replaceFirst(topCard + " ", ""); // replaces the played card
+                     playerHand = playerHand.replaceFirst(response + " ", ""); // replaces the played card
                   } else
                      System.out.println("\nYou can not play [" + response + "] onto [" + topCard + "] Valid inputs include: [" + playable.trim().replace(" ", "] [") + "]");
                }
@@ -212,18 +212,15 @@ public class CrazyEights {
             validInput = false;
          }
       }
+      topCard = response;
       System.out.println("\nPlayed [" + topCard + "]");
       System.out.println("\n-----------------------------------\n");
       return playerHand + "-" + topCard; // returns hand an topcard in the format hand-topcard (5D 6D-8C)
    }
 
    /**
-    * If computer has a matching suit in their hand to the top card, it will play. otherwise if it has
-    * a matching face to the top card, it will play. if neither of above is true, it has an eight, it
-    * will play it, picking the suit based on a the other suits in their hand. regardless of above, if
-    * either the player or other computer has only one card left, it will attemp rule matching faces or
-    * using an eight card before a matching suit. it then displays computer's hand, replacing all the
-    * cards with XX.
+    * checks if any cards in the hand can be played, if not it will draw a new one. then it will play a
+    * card, following the set 4 rules.
     *
     * @param hand
     * @param topCard
@@ -241,9 +238,6 @@ public class CrazyEights {
       Boolean checkUno = (hand.indexOf(face) >= 0 || hand.indexOf("8") >= 0) && uno; // checks if computer can change the suit, if another player has one card
       while (redo) { // loops if a card has been drawn
          redo = false;
-         for (int i = 0; i < hand.replace("10", "X").length() - 2; i += 3) // prints computer's hand, with the cards being XX's
-            System.out.print("XX ");
-         System.out.println();
          if (drawLimit < 5) { // checks if the draw limit has been reached
             int len = hand.indexOf(suit);
             int indexFace = hand.indexOf(face);
@@ -274,8 +268,12 @@ public class CrazyEights {
             }
          } else { // if draw limit has been reached, ends the turn
             redo = false;
+            selection = topCard;
          }
       }
+      for (int i = 0; i < hand.replace("10", "X").length() - 1; i += 3) // prints computer's hand, with the cards being XX's
+         System.out.print("XX ");
+      System.out.println();
       return hand.replace(selection + " ", "") + "-" + selection; // returns the hand in format hand-topcard (5D 6D-7C)
    }
 
