@@ -77,10 +77,12 @@ public class CrazyEights {
          playerHand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
          uno = uno || playerHand.length() <= 3; // checks if player has one card left, or computer 2
+         System.out.print("Computer 1 hand: ");
          temp = processComputer(c1Hand, topCard, uno, in);
          c1Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
          uno = uno || c1Hand.length() <= 3; // checks if computer 1 has one card left, or player
+         System.out.print("Computer 2 hand: ");
          temp = processComputer(c2Hand, topCard, uno, in);
          c2Hand = temp.substring(0, temp.indexOf("-"));
          topCard = temp.substring(temp.indexOf("-") + 1);
@@ -271,7 +273,7 @@ public class CrazyEights {
             selection = topCard;
          }
       }
-      for (int i = 0; i < hand.replace("10", "X").length() - 1; i += 3) // prints computer's hand, with the cards being XX's
+      for (int i = 0; i < hand.replace("10", "X").length() - 2; i += 3) // prints computer's hand, with the cards being XX's
          System.out.print("XX ");
       System.out.println();
       return hand.replace(selection + " ", "") + "-" + selection; // returns the hand in format hand-topcard (5D 6D-7C)
