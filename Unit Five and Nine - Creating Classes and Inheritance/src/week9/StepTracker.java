@@ -8,6 +8,9 @@ public class StepTracker {
 
     public StepTracker(int limit) {
         activeLimit = limit;
+        this.steps = 0;
+        this.days = 0;
+        this.activeDays = 0;
     }
 
     public void addDailySteps(int steps) {
@@ -22,6 +25,6 @@ public class StepTracker {
     }
 
     public double averageSteps() {
-        return steps / days;
+        return (double) steps / days;
     }
 }
