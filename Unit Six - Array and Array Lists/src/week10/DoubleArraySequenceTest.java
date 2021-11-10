@@ -4,6 +4,7 @@ public class DoubleArraySequenceTest {
 
     /**
     * @param args
+    * @throws IllegalAccessException
     */
     public static void main(String[] args) {
         int score = 0;
