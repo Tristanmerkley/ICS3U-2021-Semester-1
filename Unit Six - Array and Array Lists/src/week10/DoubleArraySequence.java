@@ -70,7 +70,7 @@ public class DoubleArraySequence {
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Only Positive Capacitates allowed.");
         manyItems = 0;
-        currentIndex = 0;
+        currentIndex = manyItems;
         data = new double[initialCapacity];
     }
 
@@ -111,7 +111,9 @@ public class DoubleArraySequence {
         for (int i = manyItems; i > currentIndex + 1; i--) {
             data[i] = data[i - 1];
         }
-        if (currentIndex > 0) {
+        if (currentIndex == manyItems) {
+            data[currentIndex] = d;
+        } else if (currentIndex > 0) {
             data[currentIndex + 1] = d;
             currentIndex++;
         } else {
@@ -141,13 +143,18 @@ public class DoubleArraySequence {
     public void addBefore(double element) {
         if (manyItems + 1 > data.length)
             ensureCapacity(getCapacity() * 2);
+        if (currentIndex == manyItems)
+            currentIndex = 0;
         for (int i = manyItems; i > currentIndex; i--) {
             data[i] = data[i - 1];
         }
-        if (currentIndex > 0) {
-            data[currentIndex] = element;
-        } else {
+        if (currentIndex == manyItems)
             data[0] = element;
+        if (currentIndex != manyItems) {
+            if (currentIndex > 0) {
+                data[currentIndex] = element;
+            } else
+                data[0] = element;
         }
         manyItems++;
     }
@@ -213,8 +220,11 @@ public class DoubleArraySequence {
     *       sequence to fail.
     **/
     public static DoubleArraySequence catenation(DoubleArraySequence s1, DoubleArraySequence s2) {
-        s1.addAll(s2);
-        return s1;
+        DoubleArraySequence temp = new DoubleArraySequence(s1);
+        temp.addAll(s2);
+        temp.currentIndex = temp.manyItems;
+        temp.trimToSize();
+        return temp;
     }
 
     /**
@@ -331,7 +341,12 @@ public class DoubleArraySequence {
     *                             capacity.
     **/
     public void trimToSize() {
-
+        double[] res = new double[manyItems];
+        for (int i = 0; i < manyItems; i++) {
+            res[i] = data[i];
+        }
+        data = new double[manyItems];
+        data = res;
     }
 
     public int getCurrentIndex() {
