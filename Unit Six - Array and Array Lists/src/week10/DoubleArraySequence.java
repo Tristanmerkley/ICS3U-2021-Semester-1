@@ -49,7 +49,7 @@ public class DoubleArraySequence {
     public DoubleArraySequence() {
         data = new double[DEFAULT_CAPACITY];
         manyItems = 0;
-        currentIndex = manyItems;
+        currentIndex = 0;
     }
 
     /**
@@ -69,11 +69,9 @@ public class DoubleArraySequence {
     public DoubleArraySequence(int initialCapacity) throws IllegalArgumentException {
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Only Positive Capacitates allowed.");
-
         manyItems = 0;
         currentIndex = 0;
         data = new double[initialCapacity];
-
     }
 
     /**
@@ -147,7 +145,7 @@ public class DoubleArraySequence {
             data[i] = data[i - 1];
         }
         if (currentIndex > 0) {
-            data[currentIndex - 1] = element;
+            data[currentIndex] = element;
         } else {
             data[0] = element;
         }
@@ -215,7 +213,8 @@ public class DoubleArraySequence {
     *       sequence to fail.
     **/
     public static DoubleArraySequence catenation(DoubleArraySequence s1, DoubleArraySequence s2) {
-        return null;
+        s1.addAll(s2);
+        return s1;
     }
 
     /**
