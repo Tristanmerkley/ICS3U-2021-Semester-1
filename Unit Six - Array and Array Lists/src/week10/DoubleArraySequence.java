@@ -111,7 +111,7 @@ public class DoubleArraySequence {
         for (int i = manyItems; i > currentIndex + 1; i--) {
             data[i] = data[i - 1];
         }
-        if (currentIndex == manyItems) {
+        if (!isCurrent()) {
             data[currentIndex] = d;
         } else if (currentIndex > 0) {
             data[currentIndex + 1] = d;
