@@ -151,10 +151,7 @@ public class DoubleArraySequence {
         if (currentIndex == manyItems)
             data[0] = element;
         if (currentIndex != manyItems) {
-            if (currentIndex > 0) {
-                data[currentIndex] = element;
-            } else
-                data[0] = element;
+            data[currentIndex] = element;
         }
         manyItems++;
     }
