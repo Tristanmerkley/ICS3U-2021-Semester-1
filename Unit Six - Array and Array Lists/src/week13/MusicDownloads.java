@@ -12,7 +12,7 @@ public class MusicDownloads {
 
     public DownloadInfo getDownloadInfo(String title) {
         for (DownloadInfo di : downloadList) {
-            if (title.equals(di.getTitle))
+            if (title.equals(di.getTitle()))
                 return di;
         }
         return null;
